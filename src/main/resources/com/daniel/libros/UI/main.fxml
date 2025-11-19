@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1054.0"
+      xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.daniel.controller.mainController">
+   <children>
+      <ListView fx:id="listLibros" layoutX="682.0" layoutY="95.0" prefHeight="606.0" prefWidth="344.0" />
+      <Label layoutX="791.0" layoutY="37.0" text="Lista de Libros">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="305.0" layoutY="37.0" text="Datos">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="125.0" layoutY="123.0" text="Nombre" />
+      <Label layoutX="132.0" layoutY="193.0" text="Autor" />
+      <Label layoutX="127.0" layoutY="263.0" text="Genero" />
+      <Label layoutX="123.0" layoutY="324.0" text="Estado" />
+      <Label layoutX="111.0" layoutY="403.0" text="Puntuacion" />
+      <Label layoutX="110.0" layoutY="488.0" text="Descripcion" />
+
+      <TextField fx:id="textNombre" layoutX="222.0" layoutY="119.0" />
+      <TextField fx:id="textAutor" layoutX="222.0" layoutY="189.0" />
+      <TextField fx:id="textPuntuacion" layoutX="232.0" layoutY="399.0" prefHeight="25.0" prefWidth="80.0" />
+      <TextField fx:id="textDescripcion" layoutX="222.0" layoutY="484.0" prefHeight="84.0" prefWidth="382.0" />
+
+      <RadioButton fx:id="radioLeido" layoutX="222.0" layoutY="333.0" mnemonicParsing="false" text="Leido">
+         <toggleGroup>
+            <ToggleGroup fx:id="grupoEstado" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="radioPendiente" layoutX="370.0" layoutY="333.0" mnemonicParsing="false" text="Pendiente" toggleGroup="$grupoEstado" />
+      <RadioButton fx:id="radioEmpezado" layoutX="509.0" layoutY="333.0" mnemonicParsing="false" text="Empezado" toggleGroup="$grupoEstado" />
+      <ComboBox fx:id="comboGeneros" layoutX="221.0" layoutY="259.0" prefWidth="150.0" />
+   </children>
+</Pane>

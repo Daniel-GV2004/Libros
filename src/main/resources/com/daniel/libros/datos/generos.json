@@ -1,0 +1,77 @@
+[
+    { "id": 1, "nombre": "Terror" },
+    { "id": 2, "nombre": "Fantasía" },
+    { "id": 3, "nombre": "Novela negra" },
+
+    { "id": 4, "nombre": "Ciencia ficción" },
+    { "id": 5, "nombre": "Ficción distópica" },
+    { "id": 6, "nombre": "Ficción utópica" },
+    { "id": 7, "nombre": "Ópera espacial" },
+    { "id": 8, "nombre": "Ciberpunk" },
+    { "id": 9, "nombre": "Steampunk" },
+
+    { "id": 10, "nombre": "Romance" },
+    { "id": 11, "nombre": "Romance histórico" },
+    { "id": 12, "nombre": "Romance contemporáneo" },
+    { "id": 13, "nombre": "Romance paranormal" },
+    { "id": 14, "nombre": "Romance juvenil" },
+
+    { "id": 15, "nombre": "Novela histórica" },
+    { "id": 16, "nombre": "Ficción bélica" },
+    { "id": 17, "nombre": "Ficción medieval" },
+
+    { "id": 18, "nombre": "Misterio" },
+    { "id": 19, "nombre": "Novela policiaca" },
+    { "id": 20, "nombre": "Suspenso" },
+    { "id": 21, "nombre": "Thriller psicológico" },
+    { "id": 22, "nombre": "Suspenso psicológico" },
+
+    { "id": 23, "nombre": "Aventura" },
+    { "id": 24, "nombre": "Supervivencia" },
+
+    { "id": 25, "nombre": "Realismo mágico" },
+    { "id": 26, "nombre": "Novela costumbrista" },
+    { "id": 27, "nombre": "Drama" },
+    { "id": 28, "nombre": "Novela social" },
+    { "id": 29, "nombre": "Sátira" },
+    { "id": 30, "nombre": "Humor" },
+
+    { "id": 31, "nombre": "Literatura juvenil" },
+    { "id": 32, "nombre": "Literatura infantil" },
+
+    { "id": 33, "nombre": "Novela epistolar" },
+    { "id": 34, "nombre": "Novela gótica" },
+    { "id": 35, "nombre": "Novela filosófica" },
+    { "id": 36, "nombre": "Novela de formación" },
+    { "id": 37, "nombre": "Novela de viajes" },
+    { "id": 38, "nombre": "Novela deportiva" },
+
+    { "id": 39, "nombre": "Horror cósmico" },
+    { "id": 40, "nombre": "Ficción extraña" },
+
+    { "id": 41, "nombre": "Occidental" },
+    { "id": 42, "nombre": "Novela negra clásica" },
+    { "id": 43, "nombre": "Novela dura" },
+
+    { "id": 44, "nombre": "Ficción gótica contemporánea" },
+    { "id": 45, "nombre": "Ficción posapocalíptica" },
+    { "id": 46, "nombre": "Ficción climática" },
+
+    { "id": 47, "nombre": "Fábula" },
+    { "id": 48, "nombre": "Alegoría" },
+
+    { "id": 49, "nombre": "Novela erótica" },
+
+    { "id": 50, "nombre": "Metaficción" },
+    { "id": 51, "nombre": "Novela experimental" },
+
+    { "id": 52, "nombre": "Novela de espías" },
+    { "id": 53, "nombre": "Novela política" },
+    { "id": 54, "nombre": "Novela judicial" },
+
+    { "id": 55, "nombre": "Cuento de hadas moderno" },
+
+    { "id": 56, "nombre": "Fantasía urbana" },
+    { "id": 57, "nombre": "Alta fantasía" },
+    { "id": 58, "nombre": "Fantasía oscura" }
+]
