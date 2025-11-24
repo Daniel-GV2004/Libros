@@ -36,5 +36,5 @@
    <TextField fx:id="textDescripcion" layoutX="222.0" layoutY="484.0" prefHeight="84.0" prefWidth="382.0"/>
    <ComboBox fx:id="comboEstados" layoutX="221.0" layoutY="333.0" prefWidth="150.0" promptText="Estado"/>
    <Button layoutX="222.0" layoutY="268.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0"
-           text="Ver Generos"/>
+           text="Ver Generos" onAction="#AbrirGeneros"/>
 </Pane>

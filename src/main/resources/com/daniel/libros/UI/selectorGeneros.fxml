@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.daniel.controller.generosController"
+      spacing="15" alignment="CENTER" prefWidth="350" prefHeight="400">
+
+    <ScrollPane fitToWidth="true" prefHeight="300">
+        <GridPane fx:id="grid" hgap="20" vgap="8" alignment="CENTER">
+        </GridPane>
+    </ScrollPane>
+
+    <Button text="Aceptar" onAction="#accept" maxWidth="120" />
+</VBox>

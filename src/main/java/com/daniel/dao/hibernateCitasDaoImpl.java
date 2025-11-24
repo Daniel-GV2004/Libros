@@ -1,10 +1,12 @@
 package com.daniel.dao;
 
+import com.daniel.models.Libro;
 import com.daniel.models.Usuario;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 public class hibernateCitasDaoImpl implements hibernateCitasDao{
+    @Override
     public Usuario login(Session session, Usuario usuario) {
 
         Query<Usuario> query = session.createQuery(
@@ -18,15 +20,14 @@ public class hibernateCitasDaoImpl implements hibernateCitasDao{
         return query.uniqueResult();
     }
 
-    /*
-    public static  void insertarCitas(Session session, Citas f)
-    {
+    @Override
+    public void addLibro(Session session, Libro libro) {
         session.beginTransaction();
-        session.merge(f);
-
+        session.merge(libro);
         session.getTransaction().commit();
     }
 
+    /*
     public static  void modificarCitas(Session session,Citas f)
     {
         session.beginTransaction();
