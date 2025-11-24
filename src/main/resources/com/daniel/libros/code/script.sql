@@ -45,3 +45,33 @@ CREATE TABLE usuario (
 );
 
 INSERT INTO usuario (username, password) VALUES ('admin',SHA2('admin', 256));
+
+INSERT INTO genero (id, nombre) VALUES
+(1, 'Terror'),
+(2, 'Fantasía'),
+(3, 'Novela negra'),
+(4, 'Ciencia ficción'),
+(5, 'Ficción distópica'),
+(6, 'Ficción utópica'),
+(7, 'Romance'),
+(8, 'Novela histórica'),
+(9, 'Misterio'),
+(10, 'Novela policiaca'),
+(11, 'Suspense'),
+(12, 'Thriller psicológico'),
+(13, 'Aventura'),
+(14, 'Realismo mágico'),
+(15, 'Novela costumbrista'),
+(16, 'Drama'),
+(17, 'Novela social'),
+(18, 'Humor'),
+(19, 'Novela epistolar'),
+(20, 'Novela gótica'),
+(21, 'Novela filosófica'),
+(22, 'Novela de viajes'),
+(23, 'Ficción posapocalíptica'),
+(24, 'Fábula'),
+(25, 'Novela erótica'),
+(26, 'Novela de espías'),
+(27, 'Novela política'),
+(28, 'Novela judicial');
