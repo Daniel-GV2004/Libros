@@ -18,18 +18,18 @@ public class mainController {
     @FXML private TextField textPuntuacion;
     @FXML private TextField textDescripcion;
 
-    @FXML private ComboBox<String> comboGenero;
+    @FXML private ComboBox<String> comboEstados;
 
     @FXML private RadioButton radioLeido;
     @FXML private RadioButton radioPendiente;
     @FXML private RadioButton radioEmpezado;
     @FXML private ToggleGroup grupoEstado;
-
+    //CheckBoxListCell para generos
     @FXML
     private void initialize() {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            InputStream inputStream = getClass().getResourceAsStream("/com/daniel/libros/datos/generos.json");
+            InputStream inputStream = getClass().getResourceAsStream("/com/daniel/libros/datos/estados.json");
             JsonNode rootNode = mapper.readTree(inputStream);
 
             List<String> generos = new ArrayList<>();
@@ -40,7 +40,7 @@ public class mainController {
                 }
             }
 
-            comboGenero.getItems().addAll(generos);
+            comboEstados.getItems().addAll(generos);
 
         } catch (IOException e) {
             e.printStackTrace();

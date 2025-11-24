@@ -1,6 +1,7 @@
 package com.daniel.controller;
 
 import com.daniel.dao.hibernateCitasDao;
+import com.daniel.dao.hibernateCitasDaoImpl;
 import com.daniel.models.Usuario;
 import com.daniel.util.Alertas;
 import com.daniel.util.Cifrar;
@@ -12,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.hibernate.Session;
@@ -27,6 +27,8 @@ public class loginController {
 
     SessionFactory factory = HibernateUtil.getSessionFactory();
     Session session = HibernateUtil.getSession();
+
+    hibernateCitasDao hibernate = new hibernateCitasDaoImpl();
 
     @FXML
     private void initialize() {
@@ -53,7 +55,7 @@ public class loginController {
             u.setUsername(textUser.getText());
             u.setPasswordHash(Cifrar.cifrar(textPassword.getText()));
 
-            Usuario resultado = hibernateCitasDao.login(session, u);
+            Usuario resultado = hibernate.login(session, u);
 
             if (resultado != null) {
                     Parent nuevaVista = FXMLLoader.load(getClass().getResource("/com/daniel/libros/UI/main.fxml"));
