@@ -113,6 +113,7 @@ public class mainController {
             generosController controller = loader.getController();
 
             controller.setCallback(this::recibirGeneros);
+            controller.setGenerosSeleccionados(generosSeleccionados);
 
             Stage stage = new Stage();
             stage.setTitle("Seleccionar géneros");

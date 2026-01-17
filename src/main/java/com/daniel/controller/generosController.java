@@ -57,6 +57,15 @@ public class generosController {
         }
     }
 
+    public void setGenerosSeleccionados(List<String> previos) {
+        if (previos == null) return;
+        for (CheckBox cb : checkBoxes) {
+            if (previos.contains(cb.getText())) {
+                cb.setSelected(true);
+            }
+        }
+    }
+
     // Recibir callback desde ventana principal
     public void setCallback(Consumer<List<String>> callback) {
         this.callback = callback;
