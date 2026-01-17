@@ -1,5 +1,6 @@
 package com.daniel.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Genero {
     private String nombre;
 
     @ManyToMany(mappedBy = "generos")
+    @JsonIgnore
     private List<Libro> libros;
 
     public Long getId() {

@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -307,6 +308,85 @@ public class mainController {
         } catch (Exception e) {
             Alertas.mostrarError("Error", "No se pudo modificar el libro.");
             e.printStackTrace();
+        }
+    }
+
+    public void exportarJSON(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar libros como JSON");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        java.io.File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            try {
+                List<Libro> libros = hibernate.obtenerTodosLosLibros(session);
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.enable(com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT);
+                mapper.writeValue(file, libros);
+                Alertas.mostrarInfo("Éxito", "Libros exportados correctamente.");
+            } catch (IOException e) {
+                Alertas.mostrarError("Error", "No se pudo exportar el archivo.");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void importarJSON(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Importar libros desde JSON");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
+        java.io.File file = fileChooser.showOpenDialog(null);
+
+        if (file != null) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                List<Libro> librosImportados = mapper.readValue(file, new TypeReference<List<Libro>>() {});
+
+                for (Libro libro : librosImportados) {
+                    // Validar/Asignar Autor (para que no duplique si existe por nombre)
+                    if (libro.getAutor() != null) {
+                         Autor autorExistente = hibernate.getAutorPorNombre(session, libro.getAutor().getNombre());
+                         if (autorExistente != null) {
+                             libro.setAutor(autorExistente);
+                         } else {
+                             // Si es nuevo, asegurar ID null para que se cree
+                             libro.getAutor().setId(null);
+                         }
+                    }
+
+                    // Validar/Asignar Géneros (managed)
+                    if (libro.getGeneros() != null) {
+                         List<Genero> generosManaged = libro.getGeneros().stream()
+                            .map(g -> {
+                                // Buscar por ID o Nombre si es posible, aquí asumimos que el JSON trae IDs o Nombres compatibles
+                                // Si importamos de nuestra propia export, trae IDs.
+                                // Para robustez, idealmente buscaríamos por nombre, pero el JSON de generos es fijo.
+                                // Simplificación: re-asociar por ID si existe, o buscar por nombre.
+                                // Como la lista generosJSON está en memoria:
+                                return generosJSON.stream()
+                                    .filter(gj -> gj.getNombre().equalsIgnoreCase(g.getNombre())) // Asumiendo que el nombre viene en el JSON
+                                    .findFirst()
+                                    .map(gj -> session.load(Genero.class, gj.getId()))
+                                    .orElse(null);
+                            })
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList());
+                         libro.setGeneros(generosManaged);
+                    }
+
+                    // Asegurar ID libro null para que se cree uno nuevo (o mantener si queremos update?? Asumo importar = añadir nuevos)
+                    libro.setId(null); 
+                    
+                    hibernate.addLibro(session, libro);
+                }
+                
+                cargarLibrosEnListView();
+                Alertas.mostrarInfo("Éxito", "Libros importados correctamente.");
+
+            } catch (IOException e) {
+                Alertas.mostrarError("Error", "No se pudo importar el archivo.");
+                e.printStackTrace();
+            }
         }
     }
 }
