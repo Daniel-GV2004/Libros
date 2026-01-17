@@ -1,10 +1,12 @@
 package com.daniel.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "libro")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Libro {
 
     @Id

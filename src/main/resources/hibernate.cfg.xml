@@ -14,6 +14,7 @@
      	<mapping class="com.daniel.models.Autor"/>
      	<mapping class="com.daniel.models.Genero"/>
 		<mapping class="com.daniel.models.Libro"/>
+        <mapping class="com.daniel.models.LibroPapelera"/>
 		<mapping class="com.daniel.models.Usuario"/>
     </session-factory>
 </hibernate-configuration>

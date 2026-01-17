@@ -240,8 +240,13 @@ public class mainController {
         }
 
         try {
+            // Guardar en papelera antes de borrar
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonLibro = mapper.writeValueAsString(libroSeleccionado);
+            hibernate.guardarEnPapelera(session, jsonLibro);
+
             hibernate.borrarLibro(session, libroSeleccionado);
-            // Alertas.mostrarInfo("Éxito", "Libro borrado correctamente."); // Removed as requested
+            // Alertas.mostrarInfo("Éxito", "Libro borrado. Puedes deshacer la acción."); // Mensaje eliminado a petición
             cargarLibrosEnListView();
             // Limpiar formulario opcional
             textNombre.clear();
@@ -253,6 +258,55 @@ public class mainController {
         } catch (Exception e) {
             Alertas.mostrarError("Error", "No se pudo borrar el libro.");
             e.printStackTrace();
+        }
+    }
+
+    public void deshacerBorrado(ActionEvent actionEvent) {
+        String jsonLibro = hibernate.recuperarUltimoBorrado(session);
+
+        if (jsonLibro != null) {
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                Libro libro = mapper.readValue(jsonLibro, Libro.class);
+
+                // Reutilizamos lógica de importación/creación para asegurar relaciones
+                // Validar Autor
+                if (libro.getAutor() != null) {
+                    Autor autorExistente = hibernate.getAutorPorNombre(session, libro.getAutor().getNombre());
+                    if (autorExistente != null) {
+                        libro.setAutor(autorExistente);
+                    } else {
+                        libro.getAutor().setId(null); 
+                    }
+                }
+                
+                // Validar Géneros
+                 if (libro.getGeneros() != null) {
+                     List<Genero> generosManaged = libro.getGeneros().stream()
+                        .map(g -> {
+                            return generosJSON.stream()
+                                .filter(gj -> gj.getNombre().equalsIgnoreCase(g.getNombre())) 
+                                .findFirst()
+                                .map(gj -> session.load(Genero.class, gj.getId()))
+                                .orElse(null);
+                        })
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+                     libro.setGeneros(generosManaged);
+                }
+
+                libro.setId(null); // Nuevo ID para re-inserción
+                hibernate.addLibro(session, libro);
+                
+                cargarLibrosEnListView();
+                Alertas.mostrarInfo("Éxito", "Libro restaurado.");
+
+            } catch (Exception e) {
+                Alertas.mostrarError("Error", "No se pudo restaurar el libro.");
+                e.printStackTrace();
+            }
+        } else {
+            Alertas.mostrarInfo("Info", "No hay libros para recuperar.");
         }
     }
 

@@ -96,6 +96,56 @@ public class hibernateCitasDaoImpl implements hibernateCitasDao{
             throw e;
         }
     }
+
+    @Override
+    public void guardarEnPapelera(Session session, String jsonLibro) {
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            com.daniel.models.LibroPapelera papelera = new com.daniel.models.LibroPapelera(jsonLibro);
+            session.persist(papelera);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String recuperarUltimoBorrado(Session session) {
+        try {
+            // Obtener el último añadido
+            com.daniel.models.LibroPapelera papelera = session.createQuery(
+                    "FROM LibroPapelera ORDER BY fechaBorrado DESC", com.daniel.models.LibroPapelera.class
+            ).setMaxResults(1).uniqueResult();
+
+            if (papelera != null) {
+                // Eliminar de la papelera tras recuperar
+                eliminarDePapelera(session, papelera.getId());
+                return papelera.getJsonContenido();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void eliminarDePapelera(Session session, Long id) {
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            com.daniel.models.LibroPapelera papelera = session.get(com.daniel.models.LibroPapelera.class, id);
+            if (papelera != null) {
+                session.remove(papelera);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
     /*
     public static  void modificarCitas(Session session,Citas f)
     {

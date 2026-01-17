@@ -45,6 +45,12 @@ CREATE TABLE usuario (
     password CHAR(64) NOT NULL
 );
 
+CREATE TABLE libro_papelera (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    json_contenido TEXT NOT NULL,
+    fecha_borrado DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO usuario (username, password) VALUES ('admin',SHA2('admin', 256));
 
 INSERT INTO genero (id, nombre) VALUES

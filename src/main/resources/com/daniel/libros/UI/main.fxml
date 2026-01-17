@@ -37,6 +37,7 @@
    <Button layoutX="115.0" layoutY="637.0" mnemonicParsing="false" text="Añadir libro" onAction="#crearLibro"/>
    <Button layoutX="222.0" layoutY="637.0" mnemonicParsing="false" text="Borrar libro" onAction="#borrarLibro"/>
    <Button layoutX="329.0" layoutY="637.0" mnemonicParsing="false" text="Modificar libro" onAction="#modificarLibro"/>
+   <Button layoutX="436.0" layoutY="637.0" mnemonicParsing="false" text="Deshacer borrado" onAction="#deshacerBorrado"/>
    <Button layoutX="682.0" layoutY="705.0" mnemonicParsing="false" text="Exportar JSON" onAction="#exportarJSON"/>
    <Button layoutX="782.0" layoutY="705.0" mnemonicParsing="false" text="Importar JSON" onAction="#importarJSON"/>
 </Pane>
