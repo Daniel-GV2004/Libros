@@ -69,6 +69,33 @@ public class hibernateCitasDaoImpl implements hibernateCitasDao{
         }
     }
 
+    @Override
+    public void borrarLibro(Session session, Libro libro) {
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.remove(libro);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public void modificarLibro(Session session, Libro libro) {
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.merge(libro);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+            throw e;
+        }
+    }
     /*
     public static  void modificarCitas(Session session,Citas f)
     {

@@ -17,4 +17,8 @@ public interface hibernateCitasDao {
     List<Libro> obtenerTodosLosLibros(Session session);
 
     Autor getAutorPorNombre(Session session, String nombre);
+
+    void borrarLibro(Session session, Libro libro);
+
+    void modificarLibro(Session session, Libro libro);
 }

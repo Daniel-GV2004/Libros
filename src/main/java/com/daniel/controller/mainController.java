@@ -29,7 +29,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class mainController {
-    @FXML private ListView<String> listLibros;
+    @FXML private ListView<Libro> listLibros;
 
     @FXML private TextField textNombre;
     @FXML private TextField textAutor;
@@ -48,6 +48,26 @@ public class mainController {
 
     @FXML
     private void initialize() {
+        // Configurar CellFactory antes de cargar los libros
+        listLibros.setCellFactory(param -> new ListCell<Libro>() {
+            @Override
+            protected void updateItem(Libro item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getNombre() + " | " + (item.getAutor() != null ? item.getAutor().getNombre() : ""));
+                }
+            }
+        });
+
+        // Listener para cargar datos en el formulario al seleccionar
+        listLibros.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                cargarDatosLibro(newValue);
+            }
+        });
+
         try{
             cargarLibrosEnListView();
         } catch (Exception e) {
@@ -189,11 +209,104 @@ public class mainController {
         List<Libro> libros = hibernate.obtenerTodosLosLibros(session);
 
         listLibros.getItems().clear();
+        listLibros.getItems().addAll(libros);
+    }
 
-        for (Libro libro : libros) {
-            String linea = libro.getNombre() + " | " + libro.getAutor().getNombre();
+    private void cargarDatosLibro(Libro libro) {
+        textNombre.setText(libro.getNombre());
+        textDescripcion.setText(libro.getDescripcion());
+        textPuntuacion.setText(String.valueOf(libro.getPuntuacion()));
+        textAutor.setText(libro.getAutor() != null ? libro.getAutor().getNombre() : "");
+        comboEstados.setValue(libro.getEstado());
+        
+        // Cargar géneros y marcarlos
+        if (libro.getGeneros() != null) {
+            generosSeleccionados = libro.getGeneros().stream()
+                    .map(Genero::getNombre)
+                    .collect(Collectors.toList());
+        } else {
+            generosSeleccionados = new ArrayList<>();
+        }
+    }
 
-            listLibros.getItems().add(linea);
+    public void borrarLibro(ActionEvent actionEvent) {
+        Libro libroSeleccionado = listLibros.getSelectionModel().getSelectedItem();
+
+        if (libroSeleccionado == null) {
+            Alertas.mostrarError("Error", "Debes seleccionar un libro para borrar.");
+            return;
+        }
+
+        try {
+            hibernate.borrarLibro(session, libroSeleccionado);
+            // Alertas.mostrarInfo("Éxito", "Libro borrado correctamente."); // Removed as requested
+            cargarLibrosEnListView();
+            // Limpiar formulario opcional
+            textNombre.clear();
+            textAutor.clear();
+            textPuntuacion.clear();
+            textDescripcion.clear();
+            comboEstados.setValue(null);
+            generosSeleccionados = null;
+        } catch (Exception e) {
+            Alertas.mostrarError("Error", "No se pudo borrar el libro.");
+            e.printStackTrace();
+        }
+    }
+
+    public void modificarLibro(ActionEvent actionEvent) {
+        Libro libroSeleccionado = listLibros.getSelectionModel().getSelectedItem();
+
+        if (libroSeleccionado == null) {
+            Alertas.mostrarError("Error", "Debes seleccionar un libro para modificar.");
+            return;
+        }
+
+        // Validaciones (Reusing validation logic would be better, but copying for now as per minimal changes)
+        if (Validate.esVacio(textNombre.getText()) || Validate.esVacio(textAutor.getText()) ||
+            Validate.esVacio(textPuntuacion.getText()) || Validate.esVacio(textDescripcion.getText()) ||
+            comboEstados.getValue() == null) {
+            Alertas.mostrarError("Error", "Todos los campos obligatorios deben estar rellenos.");
+            return;
+        }
+
+        // Actualizar datos del objeto libroSeleccionado
+        libroSeleccionado.setNombre(textNombre.getText());
+        libroSeleccionado.setDescripcion(textDescripcion.getText());
+        libroSeleccionado.setEstado(comboEstados.getValue());
+        libroSeleccionado.setPuntuacion(Double.parseDouble(textPuntuacion.getText()));
+
+        // Manejo del autor
+        String nombreAutor = textAutor.getText();
+        if (!libroSeleccionado.getAutor().getNombre().equalsIgnoreCase(nombreAutor)) {
+             Autor autor = hibernate.getAutorPorNombre(session, nombreAutor);
+             if (autor == null) {
+                 autor = new Autor();
+                 autor.setNombre(nombreAutor);
+             }
+             libroSeleccionado.setAutor(autor);
+        }
+        
+        // Manejo de géneros
+        if (generosSeleccionados != null) {
+             List<Genero> generos = generosSeleccionados.stream()
+                .map(nombre -> generosJSON.stream()
+                        .filter(g -> g.getNombre().equalsIgnoreCase(nombre))
+                        .findFirst()
+                        .orElse(null))
+                .filter(Objects::nonNull)
+                .map(g -> session.load(Genero.class, g.getId()))
+                .collect(Collectors.toList());
+             libroSeleccionado.setGeneros(generos);
+        }
+
+        try {
+            hibernate.modificarLibro(session, libroSeleccionado);
+            Alertas.mostrarInfo("Éxito", "Libro modificado correctamente.");
+            cargarLibrosEnListView();
+        } catch (Exception e) {
+            Alertas.mostrarError("Error", "No se pudo modificar el libro.");
+            e.printStackTrace();
         }
     }
 }

@@ -16,7 +16,7 @@ public class Libro {
     private Double puntuacion;
     private String estado;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idAutor")
     private Autor autor;
 
