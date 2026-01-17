@@ -174,6 +174,7 @@ public class mainController {
                         .findFirst()
                         .orElse(null))
                 .filter(Objects::nonNull)
+                .map(g -> session.load(Genero.class, g.getId()))
                 .collect(Collectors.toList());
         libro.setGeneros(generos);
 
@@ -190,7 +191,7 @@ public class mainController {
         listLibros.getItems().clear();
 
         for (Libro libro : libros) {
-            String linea = libro.getNombre() + " | " + libro.getAutor();
+            String linea = libro.getNombre() + " | " + libro.getAutor().getNombre();
 
             listLibros.getItems().add(linea);
         }

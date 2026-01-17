@@ -4,7 +4,8 @@ use Libreria;
 
 CREATE TABLE autor (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL
+    nombre VARCHAR(255) NOT NULL,
+    nacionalidad VARCHAR(255) NOT NULL DEFAULT 'Desconocida'
 );
 
 CREATE TABLE genero (
