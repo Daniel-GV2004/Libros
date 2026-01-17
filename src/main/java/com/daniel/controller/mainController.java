@@ -142,8 +142,20 @@ public class mainController {
             return;
         }
 
-        if (Validate.esVacio(textPuntuacion.getText()) || Validate.puntuacion((Double.parseDouble(textPuntuacion.getText())))) {
-            Alertas.mostrarError("Error", "La puntuación no puede estar vacía o ser mayor de 10.");
+        if (Validate.esVacio(textPuntuacion.getText())) {
+            Alertas.mostrarError("Error", "La puntuación no puede estar vacía.");
+            return;
+        }
+
+        double puntuacionValue;
+        try {
+            puntuacionValue = Double.parseDouble(textPuntuacion.getText());
+            if (Validate.puntuacion(puntuacionValue)) {
+                 Alertas.mostrarError("Error", "La puntuación debe ser menor o igual a 10.");
+                 return;
+            }
+        } catch (NumberFormatException e) {
+            Alertas.mostrarError("Error", "La puntuación debe ser un número válido.");
             return;
         }
 
@@ -162,21 +174,14 @@ public class mainController {
             return;
         }
 
-        // Validar puntuación numérica
-        double puntuacionValue;
-        try {
-            puntuacionValue = Double.parseDouble(textPuntuacion.getText());
-        } catch (NumberFormatException e) {
-            Alertas.mostrarError("Error", "La puntuación debe ser un número válido.");
-            return;
-        }
-
+        // Validar puntuación numérica (Ya validado arriba)
+        
         // Crear libro
         Libro libro = new Libro();
         libro.setNombre(textNombre.getText());
         libro.setDescripcion(textDescripcion.getText());
         libro.setEstado(comboEstados.getValue());
-        libro.setPuntuacion(Double.parseDouble(textPuntuacion.getText()));
+        libro.setPuntuacion(puntuacionValue);
 
         // Manejo del autor
         String nombreAutor = textAutor.getText();
@@ -256,8 +261,13 @@ public class mainController {
             comboEstados.setValue(null);
             generosSeleccionados = null;
         } catch (Exception e) {
-            Alertas.mostrarError("Error", "No se pudo borrar el libro.");
-            e.printStackTrace();
+             if (e instanceof javax.persistence.OptimisticLockException) {
+                Alertas.mostrarError("Conflicto", "El libro ha sido modificado/borrado por otro usuario. Recargando...");
+                cargarLibrosEnListView();
+            } else {
+                Alertas.mostrarError("Error", "No se pudo borrar el libro.");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -326,11 +336,23 @@ public class mainController {
             return;
         }
 
+        double puntuacionValue;
+        try {
+            puntuacionValue = Double.parseDouble(textPuntuacion.getText());
+             if (Validate.puntuacion(puntuacionValue)) {
+                 Alertas.mostrarError("Error", "La puntuación debe ser menor o igual a 10.");
+                 return;
+            }
+        } catch (NumberFormatException e) {
+            Alertas.mostrarError("Error", "La puntuación debe ser un número válido.");
+            return;
+        }
+
         // Actualizar datos del objeto libroSeleccionado
         libroSeleccionado.setNombre(textNombre.getText());
         libroSeleccionado.setDescripcion(textDescripcion.getText());
         libroSeleccionado.setEstado(comboEstados.getValue());
-        libroSeleccionado.setPuntuacion(Double.parseDouble(textPuntuacion.getText()));
+        libroSeleccionado.setPuntuacion(puntuacionValue);
 
         // Manejo del autor
         String nombreAutor = textAutor.getText();
@@ -361,8 +383,13 @@ public class mainController {
             Alertas.mostrarInfo("Éxito", "Libro modificado correctamente.");
             cargarLibrosEnListView();
         } catch (Exception e) {
-            Alertas.mostrarError("Error", "No se pudo modificar el libro.");
-            e.printStackTrace();
+            if (e instanceof javax.persistence.OptimisticLockException) {
+                Alertas.mostrarError("Conflicto de Edición", "El libro ha sido modificado por otro usuario. Los datos se recargarán.");
+                cargarLibrosEnListView();
+            } else {
+                Alertas.mostrarError("Error", "No se pudo modificar el libro.");
+                e.printStackTrace();
+            }
         }
     }
 
