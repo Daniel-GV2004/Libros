@@ -16,28 +16,31 @@
          <Font size="20.0" />
       </font>
    </Label>
-   <Label layoutX="305.0" layoutY="37.0" text="Datos">
+   <Label layoutX="215.0" layoutY="37.0" text="Datos">
       <font>
          <Font size="20.0" />
       </font>
    </Label>
-   <Label layoutX="125.0" layoutY="123.0" text="Nombre" />
-   <Label layoutX="132.0" layoutY="193.0" text="Autor" />
-   <Label layoutX="127.0" layoutY="263.0" text="Genero" />
-   <Label layoutX="123.0" layoutY="337.0" text="Estado" />
-   <Label layoutX="111.0" layoutY="403.0" text="Puntuacion" />
-   <Label layoutX="110.0" layoutY="488.0" text="Descripcion" />
+   <Label layoutX="35.0" layoutY="123.0" text="Nombre" />
+   <Label layoutX="42.0" layoutY="193.0" text="Autor" />
+   <Label layoutX="37.0" layoutY="263.0" text="Genero" />
+   <Label layoutX="33.0" layoutY="337.0" text="Estado" />
+   <Label layoutX="21.0" layoutY="403.0" text="Puntuacion" />
+   <Label layoutX="20.0" layoutY="488.0" text="Descripcion" />
 
-   <TextField fx:id="textNombre" layoutX="222.0" layoutY="119.0" />
-   <TextField fx:id="textAutor" layoutX="222.0" layoutY="189.0" />
-   <TextField fx:id="textPuntuacion" layoutX="232.0" layoutY="399.0" prefHeight="25.0" prefWidth="80.0" />
-   <TextField fx:id="textDescripcion" layoutX="222.0" layoutY="484.0" prefHeight="84.0" prefWidth="382.0" />
-   <ComboBox fx:id="comboEstados" layoutX="221.0" layoutY="333.0" prefWidth="150.0" promptText="Estado" />
-   <Button layoutX="222.0" layoutY="268.0" mnemonicParsing="false" onAction="#AbrirGeneros" prefHeight="25.0" prefWidth="149.0" text="Ver Generos" />
-   <Button layoutX="115.0" layoutY="637.0" mnemonicParsing="false" text="Añadir libro" onAction="#crearLibro"/>
-   <Button layoutX="222.0" layoutY="637.0" mnemonicParsing="false" text="Borrar libro" onAction="#borrarLibro"/>
-   <Button layoutX="329.0" layoutY="637.0" mnemonicParsing="false" text="Modificar libro" onAction="#modificarLibro"/>
-   <Button layoutX="436.0" layoutY="637.0" mnemonicParsing="false" text="Deshacer borrado" onAction="#deshacerBorrado"/>
+   <TextField fx:id="textNombre" layoutX="132.0" layoutY="119.0" prefWidth="400.0"/>
+   <TextField fx:id="textAutor" layoutX="132.0" layoutY="189.0" prefWidth="400.0"/>
+   <TextField fx:id="textPuntuacion" layoutX="142.0" layoutY="399.0" prefHeight="25.0" prefWidth="80.0" />
+   <TextField fx:id="textDescripcion" layoutX="132.0" layoutY="484.0" prefHeight="84.0" prefWidth="382.0" />
+   <ComboBox fx:id="comboEstados" layoutX="131.0" layoutY="333.0" prefWidth="150.0" promptText="Estado" />
+   <Button layoutX="132.0" layoutY="268.0" mnemonicParsing="false" onAction="#AbrirGeneros" prefHeight="25.0" prefWidth="149.0" text="Ver Generos" />
+   <Label fx:id="labelGeneros" layoutX="300.0" layoutY="272.0" prefWidth="230.0" wrapText="true" />
+   
+   <Button layoutX="30.0" layoutY="637.0" mnemonicParsing="false" text="Añadir libro" onAction="#crearLibro"/>
+   <Button layoutX="120.0" layoutY="637.0" mnemonicParsing="false" text="Borrar libro" onAction="#borrarLibro"/>
+   <Button layoutX="210.0" layoutY="637.0" mnemonicParsing="false" text="Modificar libro" onAction="#modificarLibro"/>
+   <Button layoutX="320.0" layoutY="637.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar campos" />
+   <Button layoutX="440.0" layoutY="637.0" mnemonicParsing="false" text="Deshacer borrado" onAction="#deshacerBorrado"/>
    <Button layoutX="682.0" layoutY="705.0" mnemonicParsing="false" text="Exportar JSON" onAction="#exportarJSON"/>
    <Button layoutX="782.0" layoutY="705.0" mnemonicParsing="false" text="Importar JSON" onAction="#importarJSON"/>
 </Pane>

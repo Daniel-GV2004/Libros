@@ -38,14 +38,17 @@ public class mainController {
     @FXML private TextField textDescripcion;
 
     @FXML private ComboBox<String> comboEstados;
+    @FXML private Label labelGeneros;
 
     private List<String> generosSeleccionados;
     private List<Genero> generosJSON;
+
 
     SessionFactory factory = HibernateUtil.getSessionFactory();
     Session session = HibernateUtil.getSession();
 
     hibernateCitasDao hibernate = new hibernateCitasDaoImpl();
+
 
     @FXML
     private void initialize() {
@@ -127,6 +130,11 @@ public class mainController {
 
     private List<String> recibirGeneros(List<String> generos) {
         generosSeleccionados = generos;
+        if (generos != null) {
+            labelGeneros.setText(String.join(", ", generos));
+        } else {
+             labelGeneros.setText("");
+        }
         return generos;
     }
 
@@ -231,8 +239,10 @@ public class mainController {
             generosSeleccionados = libro.getGeneros().stream()
                     .map(Genero::getNombre)
                     .collect(Collectors.toList());
+             labelGeneros.setText(String.join(", ", generosSeleccionados));
         } else {
             generosSeleccionados = new ArrayList<>();
+             labelGeneros.setText("");
         }
     }
 
@@ -470,5 +480,15 @@ public class mainController {
                 e.printStackTrace();
             }
         }
+    }
+    public void limpiarCampos(ActionEvent actionEvent) {
+        textNombre.clear();
+        textAutor.clear();
+        textPuntuacion.clear();
+        textDescripcion.clear();
+        comboEstados.setValue(null);
+        generosSeleccionados = null;
+        labelGeneros.setText("");
+        listLibros.getSelectionModel().clearSelection();
     }
 }

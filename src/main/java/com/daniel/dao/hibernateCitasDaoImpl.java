@@ -14,7 +14,7 @@ public class hibernateCitasDaoImpl implements hibernateCitasDao{
     public Usuario login(Session session, Usuario usuario) {
 
         Query<Usuario> query = session.createQuery(
-                "FROM Usuario WHERE username = :user AND password = :pass",
+                "FROM Usuario WHERE username = :user AND passwordHash = :pass",
                 Usuario.class
         );
 
